@@ -1,0 +1,26 @@
+{
+  "name": "@e-shop/eShop-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@e-shop/eShop"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/eShop-e2e/jest.config.ts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "@e-shop/eShop:build",
+          "@e-shop/eShop:serve"
+        ]
+      }
+    }
+  }
+}
