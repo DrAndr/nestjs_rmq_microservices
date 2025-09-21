@@ -1,5 +1,8 @@
 import { IsEmail, IsString } from 'class-validator';
 
+/**
+ * Contracts
+ */
 export namespace AccountLogin{
 
   export const topic = 'account.login.command';

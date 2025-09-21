@@ -1,14 +1,46 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { JWTAuthGuard } from '../guards/jwt.guard';
 import { UserId } from '../guards/user.decorator';
+import { RMQService } from 'nestjs-rmq';
+import { AccountUserCourses, AccountUserInfo } from '@e-shop/contracts';
 
 @Controller('user')
 export class UserController {
+  constructor(private readonly rmqService: RMQService) {}
 
   @UseGuards(JWTAuthGuard)
-  @Post('info')
-  create(@UserId() userId: string) {
-    return userId;
+  @Get('info')
+  async getUserPublicInfo(@UserId() userId: string) {
+    try {
+      return await this.rmqService.send<
+        AccountUserInfo.Request,
+        AccountUserInfo.Response
+      >(AccountUserInfo.topic, { id: userId });
+    } catch (e) {
+      throw new UnauthorizedException(
+        e instanceof Error ? e.message : 'Unauthorized'
+      );
+    }
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Get('courses')
+  async getUserCourses(@UserId() userId: string) {
+    try {
+      return await this.rmqService.send<
+        AccountUserCourses.Request,
+        AccountUserCourses.Response
+      >(AccountUserCourses.topic, { id: userId });
+    } catch (e) {
+      throw new UnauthorizedException(
+        e instanceof Error ? e.message : 'Unauthorized'
+      );
+    }
   }
 
   // @UseGuards(JWTAuthGuard)
@@ -39,5 +71,4 @@ export class UserController {
   // delete(@Param('email') email: string) {
   //   // return this.userRepository.deleteUser(email);
   // }
-
 }

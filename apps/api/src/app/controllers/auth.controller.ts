@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { AccountLogin, AccountRegister } from '@e-shop/contracts';
 import { RMQService } from 'nestjs-rmq';
 import { LoginDto } from '../dto/login.dto';

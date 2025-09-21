@@ -1,6 +1,28 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IUser, UserRole } from '@e-shop/interfaces';
+import {
+  IUser,
+  IUserCourses,
+  PurchaseStatus,
+  UserRole,
+} from '@e-shop/interfaces';
+
+@Schema()
+export class UserCourses extends Document implements IUserCourses {
+
+  @Prop({ required: true })
+  courseId!: string;
+
+  @Prop({
+    required: true,
+    enum: PurchaseStatus,
+    type: String,
+    default: PurchaseStatus.Started,
+  })
+  purchaseStatus!: PurchaseStatus;
+}
+
+export const UserCoursesSchema = SchemaFactory.createForClass(UserCourses);
 
 @Schema()
 export class User extends Document implements IUser {
@@ -20,6 +42,9 @@ export class User extends Document implements IUser {
     default: UserRole.USER,
   })
   role!: UserRole;
+
+  @Prop({type: [UserCoursesSchema], _id: false})
+  courses!: Types.Array<UserCourses>
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

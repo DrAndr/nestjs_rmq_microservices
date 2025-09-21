@@ -1,6 +1,9 @@
 import { UserRole } from '@e-shop/interfaces';
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 
+/**
+ * Contracts
+ */
 export namespace AccountRegister {
 
   export const topic = 'account.register.command';

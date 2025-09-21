@@ -4,10 +4,27 @@ export enum UserRole {
   USER = 'USER',
 }
 
-export interface IUser {
+export enum PurchaseStatus {
+  Started = 'Started',
+  WaitingForPayment = 'WaitingForPayment',
+  Purchased = 'Purchased',
+  Cancelled = 'Cancelled',
+}
+
+export interface IUserCourses {
+  _id: string;
+  courseId: string;
+  purchaseStatus: PurchaseStatus;
+}
+
+export interface IUserPublicProfile {
   _id?: string | unknown;
   displayName?: string;
   email: string;
-  password: string;
   role: UserRole;
+};
+
+export interface IUser extends IUserPublicProfile{
+  password: string;
+  courses?: IUserCourses[];
 }
