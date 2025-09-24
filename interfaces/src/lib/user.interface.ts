@@ -4,17 +4,17 @@ export enum UserRole {
   USER = 'USER',
 }
 
-export enum PurchaseStatus {
+export enum PurchaseState {
   Started = 'Started',
-  WaitingForPayment = 'WaitingForPayment',
+  Processed = 'Processed',
   Purchased = 'Purchased',
   Cancelled = 'Cancelled',
 }
 
 export interface IUserCourses {
-  _id: string;
+  // _id: string;
   courseId: string;
-  purchaseStatus: PurchaseStatus;
+  purchaseState: PurchaseState;
 }
 
 export interface IUserPublicProfile {

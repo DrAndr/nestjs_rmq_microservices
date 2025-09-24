@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { IUserCourses, PurchaseStatus } from '@e-shop/interfaces';
+import { IUserCourses, PurchaseState } from '@e-shop/interfaces';
 
 /**
  * Contracts
@@ -21,7 +21,7 @@ export namespace AccountUserCourses{
     courseId!: string;
 
     @IsString()
-    purchaseStatus!: PurchaseStatus;
+    purchaseState!: PurchaseState;
   }
 
 }
