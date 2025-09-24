@@ -1,10 +1,12 @@
 import {
+  IDomainEvent,
   IUser,
   IUserCourses,
   PurchaseState,
   UserRole,
 } from '@e-shop/interfaces';
 import bcrypt from 'bcryptjs';
+import { AccountChangedCourse } from '@e-shop/contracts';
 
 export class UserEntity implements IUser {
   _id?: string;
@@ -12,7 +14,8 @@ export class UserEntity implements IUser {
   email!: string;
   password!: string;
   role!: UserRole;
-  courses!: IUserCourses[];
+  courses: IUserCourses[] = [];
+  events : IDomainEvent[] = [];
 
   public constructor(user: Partial<IUser>) {
     this._id = user._id as string | undefined;
@@ -78,6 +81,10 @@ export class UserEntity implements IUser {
       });
     }
 
+    this.events.push({
+      topic: AccountChangedCourse.topic as string,
+      data: { courseId, userId: this._id, state: status },
+    });
     return this;
   }
 }
