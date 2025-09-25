@@ -15,7 +15,7 @@ export class UserEntity implements IUser {
   password!: string;
   role!: UserRole;
   courses: IUserCourses[] = [];
-  events : IDomainEvent[] = [];
+  events: IDomainEvent[] = [];
 
   public constructor(user: Partial<IUser>) {
     this._id = user._id as string | undefined;

@@ -1,8 +1,6 @@
 import { JwtModuleAsyncOptions } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-
-console.log('process.env.JWT_SECRET',process.env.JWT_SECRET)
 export const getJwtConfig = (): JwtModuleAsyncOptions => ({
   imports: [ConfigModule],
   inject: [ConfigService],

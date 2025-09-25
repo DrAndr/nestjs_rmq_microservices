@@ -1,7 +1,4 @@
-import {
-  Controller,
-  Body,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
 // import { RegisterDto } from './dto/register.dto';
 // import { LoginDto } from './dto/login.dto';
@@ -20,14 +17,14 @@ export class AuthController {
   // @Post('register')
   @RMQValidate()
   @RMQRoute(AccountRegister.topic)
-  register(@Body() dto: AccountRegister.Request):Promise<AccountRegister.Response> {
+  register(dto: AccountRegister.Request): Promise<AccountRegister.Response> {
     return this.authService.register(dto);
   }
 
   // @Post('login')
   @RMQValidate()
   @RMQRoute(AccountLogin.topic)
-  login(@Body() dto: AccountLogin.Request) {
+  login(dto: AccountLogin.Request) {
     return this.authService.login(dto);
   }
 
@@ -36,5 +33,4 @@ export class AuthController {
   //   console.log('logout')
   //   return this.authService.logout();
   // }
-
 }

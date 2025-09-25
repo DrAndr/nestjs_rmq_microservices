@@ -5,7 +5,8 @@
   "scripts": {
     "start:all": "nx run-many --target=serve --all --parallel=10",
     "start:api": "nx run api:serve --output-style=stream",
-    "start:eShop": "nx run eShop:serve --output-style=stream"
+    "start:eShop": "nx run eShop:serve --output-style=stream",
+    "jest:eShop": "nx run eShop:test "
   },
   "private": true,
   "dependencies": {
@@ -57,6 +58,7 @@
     "jest": "^30.0.2",
     "jest-environment-node": "^30.0.2",
     "jest-util": "^30.0.2",
+    "mongodb-memory-server": "^10.2.1",
     "nx": "21.5.2",
     "prettier": "^2.6.2",
     "ts-jest": "^29.4.0",
