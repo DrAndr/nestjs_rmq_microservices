@@ -93,4 +93,8 @@ export class UserRepository {
   async deleteUser(email: string): Promise<DeleteResult> {
     return await this.userModel.deleteOne({ email }).exec();
   }
+
+  async helthcheck(): Promise<IUser | null> {
+    return await this.userModel.findOne({}).exec();
+  }
 }

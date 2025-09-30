@@ -1,4 +1,4 @@
-import { Body, Controller } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 import {
   AccountBuyCourse,
@@ -17,25 +17,28 @@ export class UsersCommands {
 
   @RMQValidate()
   @RMQRoute(AccountChangeProfile.topic)
-  async changeProfile(
-    @Body() { id, displayName }: AccountChangeProfile.Request
-  ): Promise<AccountChangeProfile.Response> {
+  async changeProfile({
+    id,
+    displayName,
+  }: AccountChangeProfile.Request): Promise<AccountChangeProfile.Response> {
     return await this.service.changeProfile(displayName, id);
   }
 
   @RMQValidate()
   @RMQRoute(AccountBuyCourse.topic)
-  async buyCourse(
-    @Body() { userId, courseId }: AccountBuyCourse.Request
-  ): Promise<AccountBuyCourse.Response> {
+  async buyCourse({
+    userId,
+    courseId,
+  }: AccountBuyCourse.Request): Promise<AccountBuyCourse.Response> {
     return this.service.buyCourse(userId, courseId);
   }
 
   @RMQValidate()
   @RMQRoute(AccountCheckPayment.topic)
-  async checkPayment(
-    @Body() { userId, courseId }: AccountCheckPayment.Request
-  ): Promise<AccountCheckPayment.Response> {
+  async checkPayment({
+    userId,
+    courseId,
+  }: AccountCheckPayment.Request): Promise<AccountCheckPayment.Response> {
     return this.service.checkPayment(userId, courseId);
   }
 }
