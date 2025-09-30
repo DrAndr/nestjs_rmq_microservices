@@ -32,7 +32,25 @@ export class UserEntity implements IUser {
       email: this.email,
       displayName: this.displayName,
       role: this.role,
+      courses: this.courses,
+      events: this.events,
     };
+  }
+
+  /**
+   * Return ono of PurchaseState value
+   * @param courseId
+   */
+  public getCourseState(courseId: string): PurchaseState {
+    // shortly but unreadable.
+    return (
+      this.courses.find((c) => c.courseId === courseId)?.purchaseState ??
+      PurchaseState.Started
+    );
+    // const course: IUserCourses | undefined = this.courses.find(
+    //   (c) => c.courseId === courseId
+    // );
+    // return !course ? PurchaseState.Started : course.purchaseState;
   }
 
   public async setPassword(password: string): Promise<this> {

@@ -14,7 +14,7 @@ export namespace AccountChangeProfile{
     id!: string;
 
     @IsString()
-    displayName!: Pick<IUser, 'displayName'>;
+    displayName!: IUser['displayName'];
   }
 
   export class Response implements Partial<UpdateResult> {}

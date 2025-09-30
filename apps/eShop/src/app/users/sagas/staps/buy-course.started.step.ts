@@ -22,6 +22,7 @@ export class BuyCourseSagaStateStarted extends BuyCourseSagaState {
 
     if (course.price <= 0) {
       this.saga.setState(PurchaseState.Purchased, this.saga.courseId);
+      this.saga.user.setCourseStatus(this.saga.courseId, PurchaseState.Purchased);
       return { paymentLink: null, user: this.saga.user };
     }
 
@@ -35,6 +36,7 @@ export class BuyCourseSagaStateStarted extends BuyCourseSagaState {
     });
 
     this.saga.setState(PurchaseState.Processed, this.saga.courseId);
+    this.saga.user.setCourseStatus(this.saga.courseId, PurchaseState.Processed);
 
     return { paymentLink, user: this.saga.user };
   }

@@ -1,3 +1,5 @@
+import { IDomainEvent } from './events.interface';
+
 export enum UserRole {
   ADMIN = 'ADMIN',
   MANAGER = 'MANAGER',
@@ -22,9 +24,10 @@ export interface IUserPublicProfile {
   displayName?: string;
   email: string;
   role: UserRole;
+  courses?: IUserCourses[];
+  events?: IDomainEvent[];
 };
 
 export interface IUser extends IUserPublicProfile{
   password: string;
-  courses?: IUserCourses[];
 }

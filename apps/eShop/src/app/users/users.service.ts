@@ -25,7 +25,7 @@ export class UsersService {
    * @param id
    */
   public async changeProfile(
-    displayName: Pick<IUser, 'displayName'>,
+    displayName: IUser['displayName'],
     id: string
   ): Promise<AccountChangeProfile.Response> {
     // Simply approach, as I tough...
@@ -97,6 +97,6 @@ export class UsersService {
     return Promise.all([
       this.usersEventImmiter.handle(user),
       this.userRepository.updateUser(user),
-    ])
+    ]);
   }
 }

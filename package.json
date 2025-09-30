@@ -6,7 +6,8 @@
     "start:all": "nx run-many --target=serve --all --parallel=10",
     "start:api": "nx run api:serve --output-style=stream",
     "start:eShop": "nx run eShop:serve --output-style=stream",
-    "jest:eShop": "nx run eShop:test "
+    "jest:eShop": "nx run eShop:test",
+    "jest:eShop:no-cache": "nx run eShop:test --scip-nx-cache"
   },
   "private": true,
   "dependencies": {

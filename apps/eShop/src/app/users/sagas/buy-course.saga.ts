@@ -17,7 +17,9 @@ export class BuyCourseSaga {
     public user: UserEntity,
     public courseId: string,
     public rmqService: RMQService
-  ) {}
+  ) {
+    this.setState(user.getCourseState(courseId), courseId);
+  }
 
   public setState(state: PurchaseState, courseId: string) {
     switch (state) {
@@ -35,15 +37,15 @@ export class BuyCourseSaga {
         break;
       default:
         this.state = new BuyCourseSagaStateCanceled();
-        console.error('Miscorrect state passed.')
+        console.error('Miscorrect state passed.');
     }
 
     this.state.setContext(this);
-    this.user.setCourseStatus(courseId, state)
+    this.user.setCourseStatus(courseId, state);
     return this;
   }
 
-  public  getState(): any {
+  public getState(): any {
     return this.state;
   }
 }

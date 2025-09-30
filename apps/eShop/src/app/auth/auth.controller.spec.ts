@@ -40,11 +40,12 @@ describe('AuthController', () => {
     }).compile();
 
     app = module.createNestApplication();
+
+    await app.init();
     userRepository = app.get<UserRepository>(UserRepository);
     rmqService = app.get(RMQService);
 
     await rmqService.init();
-    await app.init();
   });
 
   it('Register - Error wrong credentials', async () => {

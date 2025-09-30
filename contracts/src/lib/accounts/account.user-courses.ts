@@ -14,8 +14,8 @@ export namespace AccountUserCourses{
   }
 
   export class Response implements IUserCourses{
-    @IsString()
-    _id!: string;
+    // @IsString()
+    // _id!: string; // User courses entity use no _id
 
     @IsString()
     courseId!: string;
