@@ -81,7 +81,7 @@ Response:
 { "access_token": "<jwt-token>" }
 ```
 
-- **GET** `/users/helthcheck`
+**GET** `/users/helthcheck`
 Response:
   ```json
   { "rmq": "boolean", "db": "boolean" }
