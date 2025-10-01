@@ -76,16 +76,18 @@ The API will be available at:
     "password": "12345"
   }
   ```
-
-- **GET** `/users/helthcheck`
-  ```json
-  { "rmq": "boolean", "db": "boolean" }
-  ```
-
 Response:
 ```json
 { "access_token": "<jwt-token>" }
 ```
+
+- **GET** `/users/helthcheck`
+Response:
+  ```json
+  { "rmq": "boolean", "db": "boolean" }
+  ```
+
+
 
 ### Courses
 - `/account/buy-course` (via RMQ topic)
