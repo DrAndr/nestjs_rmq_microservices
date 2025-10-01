@@ -1,101 +1,113 @@
-# EShop
+# E-Shop Microservices Demo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This is a project that demonstrates a simple **user authentication system**, a basic **course purchase flow**, and a **microservice API architecture** using **NestJS, RabbitMQ, and MongoDB**.  
+The infrastructure is containerized with Docker for easy local setup.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+---
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 🛠️ Tech Stack
 
-## Run tasks
+- **NestJS 11** (controllers, services, modules)
+- **TypeScript**
+- **MongoDB 4.4** (Docker container)
+- **RabbitMQ 3** with management UI (Docker container)
+- **Nx Monorepo** for project organization
+- **Jest** for unit and integration testing
+- **Docker Compose** for local development environment
 
-To run the dev server for your app, use:
+---
 
-```sh
-npx nx serve eShop
+## 🚀 Getting Started
+
+### 1. Clone the repo
+```bash
+git clone <your-repo-url>
+cd e-shop
 ```
 
-To create a production bundle:
-
-```sh
-npx nx build eShop
+### 2. Start infrastructure (MongoDB & RabbitMQ)
+```bash
+docker-compose up -d
 ```
 
-To see all available targets to run for a project, run:
+This will start:
+- **MongoDB** at `localhost:27017`
+- **RabbitMQ** at:
+  - AMQP: `amqp://localhost:5672`
+  - Management UI: http://localhost:15672  (default: guest/guest)
 
-```sh
-npx nx show project eShop
+### 3. Install dependencies
+```bash
+npm install
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/node:app demo
+### 4. Run the services
+Start all apps:
+```bash
+npm run start:all
 ```
 
-To generate a new library, use:
-
-```sh
-npx nx g @nx/node:lib mylib
+Or run only the API:
+```bash
+npm run start:eShop
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+The API will be available at:  
+👉 http://localhost:4000
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Set up CI!
+## 📬 API Endpoints
 
-### Step 1
+### Auth
+- **POST** `/auth/register`
+  ```json
+  {
+    "email": "test@test.com",
+    "password": "12345",
+    "displayName": "John Doe"
+  }
+  ```
 
-To connect to Nx Cloud, run the following command:
+- **POST** `/auth/login`
+  ```json
+  {
+    "email": "test@test.com",
+    "password": "12345"
+  }
+  ```
 
-```sh
-npx nx connect
+- **GET** `/users/helthcheck`
+  ```json
+  { "rmq": "boolean", "db": "boolean" }
+  ```
+
+Response:
+```json
+{ "access_token": "<jwt-token>" }
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Courses
+- `/account/buy-course` (via RMQ topic)
+- `/account/change-profile` (via RMQ topic)
+- `/account/user-info` (via RMQ topic)
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Most requests (except register/login) require JWT in `Authorization: Bearer <token>`.
 
-### Step 2
+---
 
-Use the following command to configure a CI workflow for your workspace:
+## 🧪 Running Tests
 
-```sh
-npx nx g ci-workflow
+```bash
+npm run jest:eShop
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Tests use **mongodb-memory-server**, so no Docker DB is needed when running Jest.
 
-## Install Nx Console
+---
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+## 🔗 RabbitMQ UI
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Check queues, messages and topics at:  
+👉 http://localhost:15672  
+(default credentials: guest / guest)
